@@ -7,6 +7,10 @@ package com.ceva.amazonviewer.model;
 
 import java.util.ArrayList;
 
+/**
+ * Hereda de la clase {@link Movie}
+ * @see Film
+ */
 public class Chapter extends Movie {
 
     private int id;
@@ -63,4 +67,27 @@ public class Chapter extends Movie {
 
         return chapters;
     }
+    
+    //Llamamos al metodo que heredamos de clase Movie
+
+    @Override
+    public void view() {
+        super.view(); 
+        //cuando los capitulos se terminen de ver, marcamos la serie como vista
+        ArrayList<Chapter> chapters = getSerie().getChapters();
+        int chapterViewedCounter = 0;
+        for(Chapter chapter : chapters)
+        {
+            if(chapter.getIsViewed())
+            {
+                chapterViewedCounter++;
+            }
+        }
+        
+        if(chapterViewedCounter == chapters.size())
+        {
+            getSerie().view();
+        }
+    }
+    
 }

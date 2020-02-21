@@ -5,6 +5,7 @@
  */
 package com.ceva.amazonviewer.model;
 
+import com.ceva.amazonviewer.util.AmazonUtil;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,11 +15,13 @@ public class Book extends Publication implements IVisualizable {
     private String isbn;
     private boolean readed;
     private int timeReaded;
+    private ArrayList<Page> pages;
 
-    public Book(String title, Date edititionDate, String editorial, String[] authors) {
+    public Book(String title, Date edititionDate, String editorial, String[] authors, ArrayList<Page> pages) {
         super(title, edititionDate, editorial);
         // TODO Auto-generated constructor stub
         setAuthors(authors);
+        this.pages = pages;
     }
 
     public int getId() {
@@ -96,11 +99,109 @@ public class Book extends Publication implements IVisualizable {
         for (int i = 0; i < 3; i++) {
             authors[i] = "author " + i;
         }
+        
+        ArrayList<Page> pages = new ArrayList<>();
+        int pagina = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            pagina = i + 1;
+            pages.add(new Book.Page(pagina, "El contenido de la pagina " + pagina));
+        }
+        
         for (int i = 1; i <= 5; i++) {
-            books.add(new Book("Book " + i, new Date(), "editorial " + i, authors));
+            books.add(new Book("Book " + i, new Date(), "editorial " + i, authors, pages));
         }
 
         return books;
     }
+    
+    public ArrayList<Page> getPages() {
+        return pages;
+    }
 
+    public void setPages(ArrayList<Page> pages) {
+        this.pages = pages;
+    }
+
+    public void view() {
+        setReaded(true);
+        Date dateI = startToSee(new Date());
+        
+        int i = 0; //contado de paginas leidas
+        do
+        {
+            System.out.println(".........");
+            System.out.println("Page: " + getPages().get(i).getNumber());
+            System.out.println(getPages().get(i).getTextContent());
+            System.out.println(".........");
+            //una vez que se presento la primera pagina, mostramos opciones al usuario
+            if(i != 0)
+            {
+                System.out.println("1. Regresar pagina");
+            }
+            System.out.println("2. Siguiente pagina");
+            System.out.println("0. Cerrar libro");
+            System.out.println();
+            
+            int response = AmazonUtil.validateUserResponseMenu(0, 2);
+            
+            if(response == 2)
+            {
+                i++;
+            }
+            else if(response == 1)
+            {
+                i--;
+            }
+            else if(response == 0)
+            {
+                break; // salimos del condicional y del bucle
+            }
+        }
+        while(i < getPages().size()); //pasar pagina mientras paginas leidas sea menor al total de paginas
+
+        //Termine de verla
+        stopToSee(dateI, new Date());
+        System.out.println();
+        System.out.println("Leíste: " + toString());
+        System.out.println("Por: " + getTimeReaded() + " milisegundos");
+    }
+    
+    public static class Page
+    {
+        private int id;
+        private int number;
+        private String textContent;
+
+        public Page(int number, String textContent) {
+            this.number = number;
+            this.textContent = textContent;
+        }
+        
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getNumber() {
+            return number;
+        }
+
+        public void setNumber(int number) {
+            this.number = number;
+        }
+
+        public String getTextContent() {
+            return textContent;
+        }
+
+        public void setTextContent(String textContent) {
+            this.textContent = textContent;
+        }
+        
+        
+    }
 }

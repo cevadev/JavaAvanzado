@@ -4,8 +4,17 @@
  * and open the template in the editor.
  */
 package com.ceva.amazonviewer.model;
-
-public class Film {
+/**
+ * <h1>Film es una clase padre abstracta</h1>
+ * <p>
+ * Clase base de la familia Film, como es abstracta no se pueden crearse instancias,
+ * Contiene el metodo abstracto {@code view()} que es obligatorio implementar para todo aquel
+ * que pertenezca a la familia
+ * 
+ * @author CV
+ * @version 2019
+ */
+public abstract class Film {
 
     private String title;
     private String genre;
@@ -80,4 +89,9 @@ public class Film {
     public void setViewed(boolean viewed) {
         this.viewed = viewed;
     }
+    
+    /**
+     * {@code view() es un metodo abstracto obligatorio de implementar}
+     */
+    public abstract void view();
 }

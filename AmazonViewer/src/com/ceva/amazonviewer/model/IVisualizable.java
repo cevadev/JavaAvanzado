@@ -9,11 +9,20 @@ import java.util.Date;
 
 /**
  *
- * @author PC
+ * 
  */
 public interface IVisualizable {
-
+    /**
+     * Este metodo captura el tiempo exacto de inicio de visualizacion
+     * @param dateI es un objeto {@code Date} con el tiempo de inicio exacto
+     * @return Devuelve la fecha y hora capturada
+     */
     Date startToSee(Date dateI);
-
+    
+    /**
+     * Este metodo captura el tiempo exacto de inicio y fin de visualizacion
+     * @param dateI es un objeto {@code Date} con el tiempo de inicio exacto
+     * @param dateF es un objeto {@code Date} con el tiempo de fin exacto
+     */
     void stopToSee(Date dateI, Date dateF);
 }
