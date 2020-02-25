@@ -5,6 +5,7 @@
  */
 package com.ceva.amazonviewer.model;
 
+import com.ceva.amazonviewer.dao.MovieDAO;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,14 +13,21 @@ import java.util.Date;
  * Hereda de la clase {@link Film}
  * Implementa la interface {@link IVisualizable}
  */
-public class Movie extends Film implements IVisualizable {
+public class Movie extends Film implements IVisualizable, MovieDAO {
 
     private int id;
     private int timeViewed;
+    
+    public Movie(){}
 
     public Movie(String title, String genre, String creator, int duration, short year) {
         super(title, genre, creator, duration);
         setYear(year);
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public int getId() {
@@ -70,13 +78,8 @@ public class Movie extends Film implements IVisualizable {
     }
 
     public static ArrayList<Movie> makeMoviesList() {
-        ArrayList<Movie> movies = new ArrayList();
-
-        for (int i = 1; i <= 5; i++) {
-            movies.add(new Movie("Movie " + i, "Genero " + i, "Creador " + i, 120 + i, (short) (2017 + i)));
-        }
-
-        return movies;
+        Movie movie = new Movie();
+        return movie.read();
     }
     
     /**
@@ -85,6 +88,8 @@ public class Movie extends Film implements IVisualizable {
     @Override
     public void view() {
         setViewed(true);
+        Movie movie = new Movie();
+        movie.setMovieViewed(this); //le pasamos el objeto Movie actual y no el recientemente creado
         Date dateI = startToSee(new Date());
 
         for (int i = 0; i < 100000; i++) {
